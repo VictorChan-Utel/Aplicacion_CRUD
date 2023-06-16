@@ -1,4 +1,5 @@
 
+
 document.getElementById("formulario").addEventListener("submit", crear);
 
 //crear
@@ -49,10 +50,11 @@ function leer()
             <td>${nomP}</td>
             <td>${precio}</td>
 
-            <td><button onclick="eliminar('${nomP}')" class="btn btn-danger">Borrar</button></td>
+            <td><button  onclick="editar('${nomP}')" class="btn btn-success" ><img src="img/edit.png"></button></td>
 
-            <td><button onclick="editar('${nomP}')" class="btn btn-success">Actualizar</button></td>
-        </tr>
+            <td><button onclick="eliminar('${nomP}')" class="btn btn-danger"><img src="img/borrar.png"></button></td>
+        
+            </tr>
         `
     }
 }
@@ -65,8 +67,10 @@ function editar(nomP)
     let productos = JSON.parse(localStorage.getItem("Productos"));
     for(let i=0; i<productos.length; i++)
     {
+
         if(productos[i].nomP === nomP)
         {
+
             document.getElementById("body").innerHTML = `
             <div class="row">
             <form>
@@ -80,24 +84,55 @@ function editar(nomP)
                  
                 </fieldset>
             </form>
-            <button class="btn btn-success" onclick="actualizar('${i}')">Actualizar</button>
-            <button class="btn btn-danger" onclick="vistaPrincipal()">Cancelar</button>
+            
             </div>
+            <tr>
+            <td><button class="btn btn-success" onclick="actualizar('${i}')">Actualizar</button></td>
+            
+            <td><button class="btn btn-danger" onclick="vistaPrincipal()">Cancelar</button></td>
+            </tr>
             `
-
-
         }
+        
     }
 }
 
 function actualizar(i)
 {
+    let entrar = false
     let productos = JSON.parse(localStorage.getItem("Productos"));
+
     productos[i].nomP = document.getElementById("newnomP").value;
     productos[i].precio = document.getElementById("newprecio").value;
+    do
+    {
+        
+        if(newnomP.value.length < 1 || newprecio.value.length < 1)
+        {
+            Swal.fire(
+            {
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debes ingresar por lo menos un caracter en Nombre y Precio'
+            })
+            entrar = true;    
 
-    localStorage.setItem("Productos", JSON.stringify(productos));
-    vistaPrincipal();
+        }
+        else
+        {
+            Swal.fire
+            ({
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+            })
+            localStorage.setItem("Productos", JSON.stringify(productos));  
+            vistaPrincipal();
+            
+        }
+    }while(entrar=false)
+   
 }
 
 //ELiminar
@@ -131,7 +166,7 @@ function vistaPrincipal()
                     <legend>PRECIO</legend>
                     <input type="number" step="0.01" class="form-control my-3" id="precio">
                     <br>
-                    <button type="submit" id="crear" class="btn btn-primary">Agregar producto</button>
+                    <button type="submit" id="crear" class="btn btn-primary">Agregar producto</button><br><br>
                 
                  
                 </fieldset>
