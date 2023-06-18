@@ -31,3 +31,11 @@ footer
     width: 100%;
  }
 
+@media (max-width:600px)
+{
+    body
+    {
+        background-image: linear-gradient(to top, #a8edea 0%, #fed6e3 100%);
+        margin: 0 auto;
+    }
+}
